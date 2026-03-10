@@ -8,6 +8,7 @@ const translations = {
         langToggle: 'EN',
         heroTitle: 'Crafting Digital Experiences',
         heroSubtitle: 'We build innovative mobile apps and web solutions that make a difference',
+        badgeAll: 'All',
         badgeAndroid: 'Android',
         badgeiOS: 'iOS',
         badgeWeb: 'Web',
@@ -24,6 +25,9 @@ const translations = {
         daboTitle: 'Dabo - Smart Review Note',
         daboDesc: 'AI-powered automatic problem content recognition for creating smart wrong answer notes. Perfect for students!',
         daboRating: '4.5 Rating',
+        kBiteTitle: 'K-Bite',
+        kBiteTagline: 'Your Random K-food!',
+        kBiteDesc: 'A Korean food guide app for travelers and first-timers. Discover dishes, translate menus, and explore recipes in one place.',
         aiSelectorTitle: 'AI Selector',
         aiSelectorDesc: 'Discover, compare, and prioritize AI tools with Gemini-guided recommendations. Build your personalized AI stack!',
         kakaoTitle: 'KakaoTalk AI Helper',
@@ -34,20 +38,25 @@ const translations = {
         pickbotFeature2: '🎥 Movies & TV',
         pickbotFeature3: '🎌 Anime',
         viewOnPlayStore: 'View on Play Store',
+        viewOnAppStore: 'View on App Store',
         visitWebsite: 'Visit Website',
         inDevelopment: 'In Development',
         comingSoon: 'Coming Soon',
+        portfolioEmptyState: 'No projects available for this platform yet.',
         contactTitle: 'Get In Touch',
         contactSubtitle: 'Have a project in mind? Let\'s create something amazing together!',
         emailLabel: 'Email',
         playStoreLabel: 'Google Play Store',
+        appStoreLabel: 'App Store',
         viewAllApps: 'View All Apps',
-        copyright: '© 2025 AppStudioLB. All rights reserved.'
+        viewDeveloperApps: 'View Developer Apps',
+        copyright: '© {year} AppStudioLB. All rights reserved.'
     },
     ko: {
         langToggle: 'KR',
         heroTitle: '디지털 경험을 만들어갑니다',
         heroSubtitle: '차별화된 모바일 앱과 웹 솔루션을 개발합니다',
+        badgeAll: '전체',
         badgeAndroid: '안드로이드',
         badgeiOS: 'iOS',
         badgeWeb: '웹',
@@ -64,6 +73,9 @@ const translations = {
         daboTitle: '다보 - 스마트 오답노트',
         daboDesc: 'AI가 문제 내용을 자동 인식하여 스마트 오답노트를 만들어줍니다. 학생들에게 완벽한 학습 도우미!',
         daboRating: '평점 4.5',
+        kBiteTitle: 'K-Bite',
+        kBiteTagline: '랜덤 K-푸드 가이드',
+        kBiteDesc: '여행자와 입문자를 위한 한국 음식 가이드 앱입니다. 음식 정보를 보고, 메뉴를 이해하고, 레시피까지 한 곳에서 살펴볼 수 있습니다.',
         aiSelectorTitle: 'AI Selector',
         aiSelectorDesc: 'Gemini 기반 추천으로 AI 도구를 발견, 비교, 우선순위를 정하세요. 나만의 AI 스택을 구축하세요!',
         kakaoTitle: '카톡 AI Helper',
@@ -74,20 +86,25 @@ const translations = {
         pickbotFeature2: '🎥 영화 & TV',
         pickbotFeature3: '🎌 애니메이션',
         viewOnPlayStore: 'Play 스토어에서 보기',
+        viewOnAppStore: 'App Store에서 보기',
         visitWebsite: '웹사이트 방문',
         inDevelopment: '개발중',
         comingSoon: '출시 예정',
+        portfolioEmptyState: '해당 플랫폼에 표시할 프로젝트가 아직 없습니다.',
         contactTitle: '연락하기',
         contactSubtitle: '프로젝트가 있으신가요? 함께 멋진 것을 만들어봐요!',
         emailLabel: '이메일',
         playStoreLabel: 'Google Play 스토어',
+        appStoreLabel: 'App Store',
         viewAllApps: '모든 앱 보기',
-        copyright: '© 2025 AppStudioLB. All rights reserved.'
+        viewDeveloperApps: '개발자 앱 보기',
+        copyright: '© {year} AppStudioLB. All rights reserved.'
     }
 };
 
 // Current language state
 let currentLang = 'en';
+let currentPlatformFilter = 'all';
 
 // Get saved language preference or default to English
 function getSavedLanguage() {
@@ -99,13 +116,17 @@ function saveLanguage(lang) {
     localStorage.setItem('appstudiolb-lang', lang);
 }
 
+function getCurrentYear() {
+    return new Date().getFullYear();
+}
+
 // Update all translatable elements
 function updateTranslations(lang) {
     const elements = document.querySelectorAll('[data-i18n]');
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
-            element.textContent = translations[lang][key];
+            element.textContent = translations[lang][key].replace('{year}', getCurrentYear());
         }
     });
     
@@ -120,6 +141,51 @@ function toggleLanguage() {
     updateTranslations(currentLang);
 }
 
+function setupPlatformFilters() {
+    const portfolioSection = document.getElementById('portfolio');
+    const filterButtons = document.querySelectorAll('.platform-filter');
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    const emptyState = document.getElementById('portfolioEmptyState');
+
+    if (!portfolioSection || filterButtons.length === 0 || portfolioCards.length === 0) {
+        return;
+    }
+
+    function applyPlatformFilter(platform) {
+        currentPlatformFilter = platform;
+        let visibleCards = 0;
+
+        portfolioCards.forEach(card => {
+            const platforms = (card.dataset.platforms || '').split(/\s+/).filter(Boolean);
+            const shouldShow = platform === 'all' || platforms.includes(platform);
+            card.classList.toggle('is-hidden', !shouldShow);
+
+            if (shouldShow) {
+                visibleCards += 1;
+            }
+        });
+
+        filterButtons.forEach(button => {
+            const isActive = button.dataset.filter === platform;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+        });
+
+        if (emptyState) {
+            emptyState.hidden = visibleCards > 0;
+        }
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const nextFilter = button.dataset.filter || 'all';
+            applyPlatformFilter(nextFilter);
+        });
+    });
+
+    applyPlatformFilter(currentPlatformFilter);
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     // Load saved language
@@ -131,27 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (langToggle) {
         langToggle.addEventListener('click', toggleLanguage);
     }
-    
-    // Add intersection observer for scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Observe portfolio cards and service cards
-    document.querySelectorAll('.portfolio-card, .service-card').forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
+
+    setupPlatformFilters();
 });

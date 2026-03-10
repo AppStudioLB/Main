@@ -109,6 +109,10 @@ body {
     inset: 0;
     background: url('images/hero-bg.png') center center / cover no-repeat;
     z-index: -2;
+    transform: scale(1.05);
+    transform-origin: center;
+    will-change: transform;
+    animation: heroBgDrift 26s ease-in-out infinite alternate;
 }
 
 .hero-bg::after {
@@ -125,6 +129,7 @@ body {
     background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.4), transparent),
         radial-gradient(ellipse 60% 40% at 80% 60%, rgba(139, 92, 246, 0.3), transparent);
     z-index: 1;
+    animation: heroGlowDrift 20s ease-in-out infinite alternate;
 }
 
 .hero-content {
@@ -178,6 +183,7 @@ body {
     align-items: center;
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-md);
+    color: var(--color-text-primary);
     background: var(--color-bg-card);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -190,6 +196,23 @@ body {
 .badge:hover {
     border-color: var(--color-primary);
     transform: translateY(-2px);
+}
+
+.platform-filter {
+    appearance: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.platform-filter:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.platform-filter.active {
+    border-color: rgba(99, 102, 241, 0.9);
+    background: rgba(99, 102, 241, 0.18);
+    box-shadow: var(--shadow-glow);
 }
 
 .badge-icon {
@@ -230,6 +253,30 @@ body {
 
     60% {
         transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+@keyframes heroBgDrift {
+    0% {
+        transform: scale(1.05) translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: scale(1.08) translate3d(-1.2%, 0.8%, 0);
+    }
+
+    100% {
+        transform: scale(1.06) translate3d(1%, -0.9%, 0);
+    }
+}
+
+@keyframes heroGlowDrift {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate3d(1.4%, -1%, 0) scale(1.03);
     }
 }
 
@@ -373,6 +420,14 @@ section {
     gap: var(--spacing-lg);
 }
 
+.portfolio-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
 .portfolio-card {
     position: relative;
     background: var(--gradient-card);
@@ -385,6 +440,10 @@ section {
     flex-direction: column;
 }
 
+.portfolio-card.is-hidden {
+    display: none;
+}
+
 .card-screenshot {
     position: relative;
     width: 100%;
@@ -392,6 +451,11 @@ section {
     overflow: hidden;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+}
+
+.card-screenshot-placeholder {
+    display: flex;
+    align-items: flex-end;
 }
 
 .card-screenshot img {
@@ -500,6 +564,36 @@ section {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
 }
 
+.k-bite-icon {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.24), rgba(245, 158, 11, 0.08));
+}
+
+.k-bite-screenshot {
+    background:
+        radial-gradient(circle at top right, rgba(250, 204, 21, 0.22), transparent 35%),
+        linear-gradient(135deg, rgba(154, 52, 18, 0.9), rgba(30, 41, 59, 0.95));
+}
+
+.app-preview-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: var(--spacing-lg);
+}
+
+.app-preview-copy strong {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.app-preview-copy span {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.78);
+}
+
 .platform-badge {
     display: inline-flex;
     align-items: center;
@@ -600,6 +694,13 @@ section {
     background: var(--color-bg-secondary);
 }
 
+.portfolio-empty-state {
+    margin-top: var(--spacing-lg);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
 .contact-content {
     display: flex;
     flex-wrap: wrap;
@@ -635,6 +736,10 @@ section {
     justify-content: center;
     border-radius: var(--radius-md);
     background: var(--gradient-primary);
+}
+
+.contact-link.appstore .contact-icon {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(56, 189, 248, 0.9));
 }
 
 .contact-icon svg {
@@ -708,6 +813,14 @@ section {
     .lang-toggle {
         top: var(--spacing-sm);
         right: var(--spacing-sm);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-bg,
+    .hero-bg::before {
+        animation: none;
+        transform: none;
     }
 }
 
