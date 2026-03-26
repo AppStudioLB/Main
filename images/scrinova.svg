@@ -1,0 +1,38 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="112" y1="76" x2="1080" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <circle cx="1112" cy="96" r="132" fill="#DBEAFE" fill-opacity="0.7"/>
+  <circle cx="92" cy="562" r="168" fill="#E0F2FE" fill-opacity="0.75"/>
+
+  <g transform="translate(140 122)">
+    <rect width="96" height="96" rx="28" fill="#0F172A"/>
+    <rect x="18" y="18" width="44" height="58" rx="16" fill="#93C5FD"/>
+    <rect x="36" y="30" width="44" height="58" rx="16" fill="url(#mark)"/>
+  </g>
+
+  <text x="262" y="190" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="60" font-weight="800" letter-spacing="-1.8">Scrinova</text>
+  <text x="140" y="302" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="62" font-weight="800" letter-spacing="-2.2">
+    All-in-One Screenshot Maker
+  </text>
+  <text x="140" y="380" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="500">
+    Create stunning app store screenshots with templates,
+  </text>
+  <text x="140" y="424" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="500">
+    multi-language text, and batch export for iPhone, iPad, and Android.
+  </text>
+
+  <rect x="140" y="486" width="264" height="58" rx="29" fill="#0F172A"/>
+  <text x="272" y="523" text-anchor="middle" fill="white" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">
+    scrinova.vercel.app
+  </text>
+</svg>
