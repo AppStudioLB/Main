@@ -675,6 +675,13 @@ section {
     gap: 10px;
 }
 
+.card-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
 .coming-soon {
     display: inline-block;
     padding: 8px 16px;
