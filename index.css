@@ -589,6 +589,15 @@ section {
         linear-gradient(135deg, rgba(154, 52, 18, 0.9), rgba(30, 41, 59, 0.95));
 }
 
+.food-wont-come-card-screenshot {
+    background: rgb(238, 242, 236);
+}
+
+.food-wont-come-card-screenshot img {
+    object-fit: cover;
+    object-position: top center;
+}
+
 .wheelcha-card-screenshot {
     background: rgb(3, 7, 18);
 }
